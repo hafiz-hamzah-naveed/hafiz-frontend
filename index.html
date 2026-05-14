@@ -3172,27 +3172,12 @@
       localStorage.removeItem(storageKey(name));
       localStorage.removeItem(legacyStorageKey(name));
     }
-    const DEFAULT_API_ORIGIN = (function () {
-      if (window.__VERDLY_API_ORIGIN__) return window.__VERDLY_API_ORIGIN__;
-      const legacyApiOrigin = window['__' + 'HN' + 'F_API_ORIGIN__'];
-      if (legacyApiOrigin) return legacyApiOrigin;
-      const isLocal = window.location.hostname === 'localhost' ||
-        window.location.hostname === '127.0.0.1' ||
-        window.location.protocol === 'file:';
-      const API_BASE = window.location.hostname === 'localhost'
-        ? 'http://localhost:5001'
-        : 'https://nurseryy-backend.infinityfreeapp.com';
-      const API_ORIGIN = API_BASE.replace(/\/api$/, '');
+    const API_ORIGIN = 'https://nurseryy-backend.infinityfreeapp.com';
+const API_BASE = `${API_ORIGIN}/api`;
 
-      return isLocal ? FALLBACK_API_ORIGIN : window.location.origin;
-    })();
-    const API_ORIGIN = (readStoredValue('api_origin') || DEFAULT_API_ORIGIN).replace(/\/$/, '');
-    const API_BASE = API_ORIGIN.endsWith('/api') ? API_ORIGIN : `${API_ORIGIN}/api`;
-
-    function apiUrl(path) {
-      return `${API_BASE}${path}`;
-    }
-
+function apiUrl(path) {
+  return `${API_BASE}${path}`;
+}
     function assetUrl(path) {
       if (!path) return null;
       if (/^https?:\/\//i.test(path) || path.startsWith('data:')) return path;
